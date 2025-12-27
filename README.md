@@ -17,3 +17,6 @@ A full-stack interactive web application designed to streamline truck rentals, b
 2. Install dependencies: `npm install`
 3. Set up the database using the provided `database.sql` file.
 4. Start the server: `node server.js`
+
+## Website's Landing Page
+<img width="1928" height="903" alt="websitelanding" src="https://github.com/user-attachments/assets/b53476d9-295c-450d-bbeb-c50a54397a5c" />
