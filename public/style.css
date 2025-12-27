@@ -1,0 +1,359 @@
+:root {
+  --color-primary: #d3682f; /* Deep Red/Safety Red (Accent) */
+  --color-secondary: #0D47A1; /* Deep Navy Blue (Headers/Strong text) */
+  --color-background: #F8F7F3; /* Warm Off-White/Light Taupe */
+  --color-card-bg: #FFFFFF; /* Clean White for cards */
+  --color-chrome: #B0BEC5; /* Light Silver/Chrome */
+  --color-text: #424242; /* Charcoal Gray */
+  --color-asphalt: #212121; /* Dark Gray/Black */
+}
+
+/* ===== Global Styles ===== */
+body {
+  /* Existing Styles */
+  font-family: 'Lato', sans-serif;
+  color: var(--color-text);
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+  background-color: var(--color-background); /* ONLY KEEP THE FALLBACK COLOR */
+  
+  /*  Opacity Trick: Use a pseudo-element for subtle opacity  */
+  position: relative; /* REQUIRED for the pseudo-element to position correctly */
+}
+
+/* --- NEW: Pseudo-element to control opacity without affecting text --- */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Re-apply the image to the pseudo-element */
+  background-image: url('/images/truckbackground.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  
+  /*  FINAL UPDATE: Maximum Darkening and Heavy Blur  */
+  filter: brightness(1) blur(0.5px); /* Very dark and heavily blurred */
+  
+  /* Adjusted opacity to balance the heavy filter */
+  opacity: 0.3; /* Increased for better presence */
+  z-index: -1; /* Place the background layer underneath all content */
+}
+
+/* Headers - Strong, industrial feel */
+h1, h2, h3 {
+  font-family: 'Oswald', sans-serif; /* Condensed, strong font */
+  color: var(--color-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Buttons */
+button {
+  /* Changed to primary accent color with a subtle rounded corner for modern touch */
+  padding: 10px 20px;
+  background: var(--color-primary);
+  color: white;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-weight: bold;
+}
+button:hover {
+  /* Darker primary color on hover, slight lift and chrome highlight */
+  background: #A31F1F; 
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Inputs & Textareas */
+input, textarea {
+  padding: 10px; /* Slightly larger padding */
+  margin: 5px 0;
+  border-radius: 4px;
+  border: 1px solid var(--color-chrome); /* Chrome border */
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); /* Subtle inset shadow */
+}
+
+/* ===== Dashboard Grid (No change, it's good) ===== */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 20px;
+  margin: 20px auto;
+  max-width: 1200px;
+}
+.dashboard-header {
+  position: relative;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.dashboard-header h1 {
+  margin: 0;
+}
+
+.dashboard-header button {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 6px 15px;
+  background: var(--color-asphalt); /* Use dark color for header button */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-header button:hover {
+  background: var(--color-secondary);
+}
+
+.left-column, .right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ===== Admin/Manager Sections (Cards) ===== */
+.admin-section {
+  background: var(--color-card-bg);
+  padding: 20px; /* Increased padding */
+  border-radius: 8px; /* Softer rounded corners */
+  /* Updated shadow for a cleaner, modern look */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+  text-align: left;
+  transition: all 0.3s ease;
+}
+
+/* FIX: Disable hover effect for Search Trucks only */
+.no-hover div:hover,
+.no-hover:hover {
+  transform: none !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important; /* Keep a static shadow */
+  background: var(--color-card-bg) !important;
+}
+
+.admin-section.full-width {
+  grid-column: 1 / -1;
+}
+
+.admin-section input, 
+.admin-section textarea {
+  width: calc(100% - 20px);
+  margin-bottom: 10px;
+}
+
+/* Styling for Individual Truck/Item Cards inside sections */
+.admin-section div {
+  background: var(--color-card-bg);
+  margin-bottom: 10px;
+  padding: 15px; /* Increased padding inside card */
+  border-radius: 6px;
+  /* Card separator look */
+  border-left: 5px solid var(--color-primary); 
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  min-height: 100px;
+  text-align: left;
+  opacity: 0;
+  animation: fadeIn 0.5s forwards;
+  transition: all 0.3s ease;
+}
+
+/* Enhanced Hover Effect for Cards */
+.admin-section div:hover {
+  transform: translateY(-5px); /* More noticeable lift */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  background: #F9F9F9; /* Subtle change on hover */
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+/* ===== Scrollable Containers (Sliders) - Refined Look ===== */
+.scrollable-truck-list {
+  height: 200px;
+  overflow-y: auto;
+  padding: 5px;
+  background: #E0E0E0; /* Slightly darker than background for contrast */
+  border-radius: 5px;
+  border: 1px solid var(--color-chrome);
+}
+
+/* Custom Scrollbar - Chrome/Silver color */
+.scrollable-truck-list::-webkit-scrollbar {
+  width: 8px;
+}
+.scrollable-truck-list::-webkit-scrollbar-track {
+  background: #E0E0E0;
+  border-radius: 5px;
+}
+.scrollable-truck-list::-webkit-scrollbar-thumb {
+  background: var(--color-chrome); /* Silver thumb */
+  border-radius: 5px;
+}
+.scrollable-truck-list::-webkit-scrollbar-thumb:hover {
+  background: #90A4AE;
+}
+
+/* ===== Card Buttons (Request Truck/Update Status) ===== */
+.admin-section div button {
+  padding: 8px 16px;
+  font-size: 14px;
+  margin-top: 10px;
+  width: fit-content;
+  display: inline-block; /* Aligned horizontally now */
+  margin-right: 10px;
+}
+
+/* ===== Input + Button Alignment for Contact (No Change) ===== */
+.admin-section input#msg {
+  width: calc(100% - 100px);
+  display: inline-block;
+  vertical-align: middle;
+}
+.admin-section button {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* ===== Misc Manager/Admin Tweaks (No Change) ===== */
+.left-column .admin-section {
+  margin-bottom: 10px;
+}
+
+#branchCompare, #branchInfo {
+  width: 95%;
+}
+
+/* ===== Login Box (Themed) ===== */
+.login-box {
+  width: 300px;
+  background: var(--color-card-bg);
+  padding: 30px; /* Increased padding */
+  margin: auto;
+  margin-top: 80px;
+  border-radius: 8px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Scroll Boxes (Same as scrollable-truck-list for consistency) */
+#userContainer, #managerContainer, #contactContainer, .scroll-box {
+  max-height: 600px;
+  overflow-y: auto;
+  padding: 5px;
+  background: #E0E0E0;
+  border-radius: 5px;
+  border: 1px solid var(--color-chrome);
+}
+
+/* Inner elements for consistency */
+#userContainer div, #managerContainer div, #contactContainer div, .scroll-box div {
+  background: var(--color-card-bg);
+  margin-bottom: 10px;
+  padding: 15px;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  border-left: 5px solid var(--color-primary);
+}
+
+
+/* Admin Trucks Section (Table) */
+#truckContainer {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 5px;
+  background: #E0E0E0;
+  border-radius: 5px;
+  border: 1px solid var(--color-chrome);
+}
+
+#truckContainer div {
+  background: white;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+/* Table Style in All Trucks View */
+.scrollable-truck-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.scrollable-truck-list th {
+  background-color: var(--color-secondary);
+  color: white;
+  padding: 8px;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+.scrollable-truck-list td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+/* ===== Branch Comparison Cards (compact, no hover) ===== */
+#branchCompare > div {
+  min-height: auto !important;
+  padding: 10px 15px !important;
+  margin-bottom: 8px !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
+  background: var(--color-card-bg) !important;
+  border-left: 5px solid var(--color-primary);
+  font-weight: bold;
+}
+
+/* Remove hover lift for Branch Comparison */
+#branchCompare > div:hover {
+  transform: none !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
+  background: var(--color-card-bg) !important;
+}
+
+.requested-trucks-scroll {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* ===== MODAL STYLES (from user.html, repeated here for completeness) ===== */
+.modal-overlay {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7); /* Darker dimming */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal-box {
+  background-color: var(--color-card-bg);
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+  width: 90%;
+  max-width: 450px;
+  text-align: center;
+  border-top: 5px solid var(--color-primary); /* Accent line */
+}
+.content-blurred {
+  /* Use for main wrapper when modal is open (requires JS handling) */
+  filter: blur(2px);
+  pointer-events: none;
+  transition: filter 0.3s ease;
+}

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>Admin Dashboard</title>
+</head>
+<body>
+  <div class="dashboard-header">
+    <h1>Admin Dashboard - <span id="adminName">Admin</span></h1>
+    <button id="logoutBtn">Log Out</button>
+  </div>
+  
+  <hr>
+
+  <!-- Top Grid: Manage Users & Managers -->
+  <div class="dashboard-grid">
+    <div class="admin-section">
+      <h2>Manage Accounts</h2>
+      <input id="userSearch" placeholder="Search username">
+      <button onclick="searchUsers()">Search</button>
+      <div id="userContainer">
+        <div id="userList"></div>
+      </div>
+    </div>
+
+    <div class="admin-section">
+      <h2>Manage Managers</h2>
+      <input id="managerSearch" placeholder="Search managers">
+      <button onclick="searchManagers()">Search</button>
+      <div id="managerContainer">
+        <div id="managerList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Middle Grid: Search/Add Trucks & Recent Trucks -->
+  <div class="dashboard-grid">
+    <div class="left-column">
+      <div class="admin-section no-hover">
+        <h2>Search Trucks</h2>
+        <input id="truckSearch" placeholder="Model, Plate No, or Branch">
+        <button type="button" onclick="searchTrucks()">Search</button>
+        <div id="truckSearchResults" class="scroll-box"></div>
+      </div>
+
+      <div class="admin-section">
+        <h2>Add New Truck</h2>
+        <input id="pno" placeholder="Plate No">
+        <input id="model" placeholder="Model">
+        <input id="contact" placeholder="Contact">
+        <input id="insurance" placeholder="Insurance">
+        <input id="branch" placeholder="Branch">
+        <br>
+        <button onclick="addTruck()">Add Truck</button>
+      </div>
+    </div>
+
+    <div class="right-column">
+      <div class="admin-section">
+        <h2>Recently Added Trucks</h2>
+        <button type="button" onclick="loadAllTrucks()">Show All Trucks</button>
+         <!-- HIDDEN BOX BELOW -->
+         <div id="allTrucksBox" class="scrollable-truck-list" style="display:none; max-height:400px; overflow-y:auto; margin-top:10px;"></div>
+        <div id="recentTruckList" class="scroll-box"></div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Messages -->
+  <div class="admin-section full-width">
+    <h2>Contact Messages</h2>
+    <input id="contactSearch" placeholder="Search by username or email">
+    <button onclick="searchContacts()">Search</button>
+    <div id="contactContainer">
+      <div id="contactList"></div>
+    </div>
+  </div>
+
+  <script>
+    const adminName = sessionStorage.getItem("username") || "Admin";
+    document.getElementById("adminName").textContent = adminName;
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      sessionStorage.clear();
+      window.location.href = "index.html";
+    });
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>

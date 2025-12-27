@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manager Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="dashboard-header">
+    <h1>Manager Dashboard - <span id="managerName">Manager</span></h1>
+    <button id="logoutBtn">Log Out</button>
+  </div>
+
+  <button onclick="window.location.href='account_details.html'">Edit Account Details</button>
+  <br><hr><br>
+
+  <div class="dashboard-grid">
+
+    <!-- LEFT COLUMN -->
+    <div class="left-column">
+      
+      <!-- Branch Output Comparison -->
+      <div class="admin-section">
+        <h2>Branch Output Comparison</h2>
+        <div id="branchCompare" class="scrollable-truck-list" style="max-height:200px; overflow-y:auto;"></div>
+      </div>
+
+      <!-- Search Trucks -->
+      <div class="admin-section no-hover">
+        <h2>Search Trucks</h2>
+        <input id="truckSearch" placeholder="Model or Plate No">
+        <button onclick="searchTrucks()">Search</button>
+        <div id="truckSearchResults" class="scroll-box"></div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="right-column">
+
+      <div class="admin-section">
+        <h2>My Branch Trucks</h2>
+        <div id="branchTruckList" class="scrollable-truck-list" style="max-height:200px; overflow-y:auto;"></div>
+      </div>
+
+      <div class="admin-section">
+        <h2>Recently Added Trucks</h2>
+        <div id="recentTruckList" class="scrollable-truck-list" style="max-height:200px; overflow-y:auto;"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Contact Admin -->
+  <div class="admin-section full-width">
+    <h2>Contact Admin</h2>
+    <input id="msg" placeholder="Type your message">
+    <button onclick="contactAdmin()">Send</button>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    const managerName = sessionStorage.getItem("username") || "Manager";
+    document.getElementById("managerName").textContent = managerName;
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+      if (typeof loadBranchTrucks === "function") loadBranchTrucks();
+      if (typeof loadRecentTrucks === "function") loadRecentTrucks();
+
+      const box = document.getElementById("branchCompare");
+
+      fetch("/branchSummary")
+        .then(res => res.json())
+        .then(data => {
+          box.innerHTML = Object.entries(data).map(([branch, count]) => `
+            <div class="branch-compare-item">
+              <span class="branch-name">${branch}</span>
+              <span class="branch-count">${count} trucks</span>
+            </div>
+          `).join("");
+        });
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      sessionStorage.clear();
+      window.location.href = "index.html";
+    });
+  </script>
+
+</body>
+</html>

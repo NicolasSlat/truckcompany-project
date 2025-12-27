@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>Account Details</title>
+</head>
+<body>
+
+  <!-- Dashboard header with centered title and top-right Go Back button -->
+  <div class="dashboard-header">
+    <h1>Account Details</h1>
+    <button onclick="history.back()">Go Back</button>
+  </div>
+
+  <div class="admin-section">
+    <label for="fullName">Full Name:</label>
+    <input id="fullName" placeholder="Full Name">
+
+    <label for="citizenId">Citizen ID:</label>
+    <input id="citizenId" placeholder="Citizen ID">
+
+    <label for="address">Address:</label>
+    <input id="address" placeholder="Address">
+
+    <button onclick="saveDetails()">Save</button>
+  </div>
+
+  <script src="account_details.js"></script>
+</body>
+</html>
